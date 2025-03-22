@@ -112,7 +112,22 @@ function fillCircle(centerX, centerY, octants) {
                 initializeCanvas();
                 drawPointsOnCanvas(octants);
                 fillCircle(centerX, centerY, octants); // Rellenar el círculo
-                displayOctantTables(octants);
+                let pk = 1 - radius; // P0 = 1 - r
+                octants[0].forEach((point, k) => {
+                point.n = k; // Número de iteración
+                point.pk = pk; // Valor de Pk
+
+                // Calcular Pk para la siguiente iteración
+                if (pk < 0) {
+                    pk = pk + 2 * (point.x - centerX) + 1;
+                } else {
+                    pk = pk + 2 * (point.x - centerX) + 1 - 2 * (point.y - centerY);
+                }
+            });
+
+            displayOctantTables(octants);
+
+                //displayOctantTables(octants);
             },
             error: function (error) {
                 console.error("Error al calcular los puntos del círculo:", error);
@@ -132,42 +147,106 @@ function fillCircle(centerX, centerY, octants) {
         });
     }
 
-    // Función para mostrar las tablas de los octantes
+
     function displayOctantTables(octants) {
         octantTables.empty(); // Limpiar tablas previas
-
+    
         octants.forEach((points, index) => {
             const table = document.createElement('table');
-            table.className = 'table table-bordered mt-3';
+            table.className = 'table table-bordered mt-3'; // Aplicar clases de Bootstrap
             const caption = document.createElement('caption');
             caption.textContent = `Octante ${index + 1}`;
             table.appendChild(caption);
-
+    
             // Encabezados de la tabla
             const headerRow = document.createElement('tr');
+    
+            // Agregar columnas adicionales solo para el primer octante
+            if (index === 0) {
+                const nHeader = document.createElement('th');
+                nHeader.textContent = 'N';
+                headerRow.appendChild(nHeader);
+    
+                const pkHeader = document.createElement('th');
+                pkHeader.textContent = 'Pk';
+                headerRow.appendChild(pkHeader);
+            }
+    
             const xHeader = document.createElement('th');
             xHeader.textContent = 'X';
+            headerRow.appendChild(xHeader);
+    
             const yHeader = document.createElement('th');
             yHeader.textContent = 'Y';
-            headerRow.appendChild(xHeader);
             headerRow.appendChild(yHeader);
+    
             table.appendChild(headerRow);
-
+    
             // Agregar cada punto a la tabla
-            points.forEach(point => {
+            points.forEach((point, n) => {
                 const row = document.createElement('tr');
+    
+                // Agregar columnas adicionales solo para el primer octante
+                if (index === 0) {
+                    const nCell = document.createElement('td');
+                    nCell.textContent = point.n || n; // Número de iteración
+                    row.appendChild(nCell);
+    
+                    const pkCell = document.createElement('td');
+                    pkCell.textContent = point.pk || 'N/A'; // Valor de Pk
+                    row.appendChild(pkCell);
+                }
+    
                 const xCell = document.createElement('td');
                 xCell.textContent = point.x;
+                row.appendChild(xCell);
+    
                 const yCell = document.createElement('td');
                 yCell.textContent = point.y;
-                row.appendChild(xCell);
                 row.appendChild(yCell);
+    
                 table.appendChild(row);
             });
-
+    
             octantTables.append(table);
         });
     }
+    // Función para mostrar las tablas de los octantes
+    // function displayOctantTables(octants) {
+    //     octantTables.empty(); // Limpiar tablas previas
+
+    //     octants.forEach((points, index) => {
+    //         const table = document.createElement('table');
+    //         table.className = 'table table-bordered mt-3';
+    //         const caption = document.createElement('caption');
+    //         caption.textContent = `Octante ${index + 1}`;
+    //         table.appendChild(caption);
+
+    //         // Encabezados de la tabla
+    //         const headerRow = document.createElement('tr');
+    //         const xHeader = document.createElement('th');
+    //         xHeader.textContent = 'X';
+    //         const yHeader = document.createElement('th');
+    //         yHeader.textContent = 'Y';
+    //         headerRow.appendChild(xHeader);
+    //         headerRow.appendChild(yHeader);
+    //         table.appendChild(headerRow);
+
+    //         // Agregar cada punto a la tabla
+    //         points.forEach(point => {
+    //             const row = document.createElement('tr');
+    //             const xCell = document.createElement('td');
+    //             xCell.textContent = point.x;
+    //             const yCell = document.createElement('td');
+    //             yCell.textContent = point.y;
+    //             row.appendChild(xCell);
+    //             row.appendChild(yCell);
+    //             table.appendChild(row);
+    //         });
+
+    //         octantTables.append(table);
+    //     });
+    // }
 
     // Evento para dibujar el círculo
     $("#drawCircleButton").click(function () {
