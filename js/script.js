@@ -8,7 +8,7 @@ $(document).ready(function () {
     var table = $("#pointsTable");
 
     function initializeCanvas() {
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "white";
         ctx.fillRect(0, 0, width, height);
 
         // Dibujar los ejes

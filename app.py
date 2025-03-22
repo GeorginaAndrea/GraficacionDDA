@@ -37,5 +37,40 @@ def calculate():
 
     return jsonify(points)
 
+# Ruta para calcular los puntos de un círculo usando el algoritmo del punto medio
+@app.route('/calculate_circle', methods=['POST'])
+def calculate_circle():
+    data = request.get_json()
+    r = data['r']
+    centerX = data['centerX']
+    centerY = data['centerY']
+
+    # Algoritmo del punto medio para círculos
+    octants = [[] for _ in range(8)]  # Lista de 8 octantes
+    x = 0
+    y = r
+    p = 1 - r  # Parámetro de decisión inicial
+
+    while x <= y:
+        # Almacenar los puntos simétricos en los 8 octantes
+        octants[0].append({'x': centerX + x, 'y': centerY + y})
+        octants[1].append({'x': centerX - x, 'y': centerY + y})
+        octants[2].append({'x': centerX + x, 'y': centerY - y})
+        octants[3].append({'x': centerX - x, 'y': centerY - y})
+        octants[4].append({'x': centerX + y, 'y': centerY + x})
+        octants[5].append({'x': centerX - y, 'y': centerY + x})
+        octants[6].append({'x': centerX + y, 'y': centerY - x})
+        octants[7].append({'x': centerX - y, 'y': centerY - x})
+
+        # Actualizar el valor del parámetro de decisión y los puntos (x, y)
+        if p < 0:
+            p += 2 * x + 3
+        else:
+            p += 2 * (x - y) + 5
+            y -= 1
+        x += 1
+
+    return jsonify(octants)
+
 if __name__ == '__main__':
     app.run(debug=True)
