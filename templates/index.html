@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -28,21 +28,430 @@
                     <h4>Coordenadas del Círculo</h4>
                     <input type="number" id="centerX" placeholder="Centro X" class="form-control mb-2">
                     <input type="number" id="centerY" placeholder="Centro Y" class="form-control mb-2">
-                    <input type="number" id="radius" placeholder="Radio" class="form-control mb-2">
-                    <button class="btn btn-primary" id="drawCircleButton">Dibujar Círculo</button>
+                    <input type="number" id="radioX" placeholder="Radio X (Rx)" class="form-control mb-2">
+                    <input type="number" id="radioY" placeholder="Radio Y (Ry)" class="form-control mb-2">
+                    <button class="btn btn-primary" id="drawEllipseButton">Dibujar Elipse</button>
                 </div>
             </div>
         </div>
         <h4 class="mt-4">Puntos Calculados</h4>
         <div class="row">
-            <!-- Tablas para los octantes del círculo -->
+            Tablas para los octantes del círculo
             <div class="col-md-12">
                 <h5>Octantes del Círculo</h5>
                 <div id="octantTables" class="grid-container" >
-                    <!-- Las tablas se generarán dinámicamente aquí -->
+                    Las tablas se generarán dinámicamente aquí 
                 </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h5>Región I (Primer Cuadrante)</h5>
+                <table class="table table-bordered" id="region1Table">
+                    <thead>
+                        <tr>
+                            <th>k</th>
+                            <th>P<sub>k</sub></th>
+                            <th>X</th>
+                            <th>Y</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h5>Región II (Primer Cuadrante)</h5>
+                <table class="table table-bordered" id="region2Table">
+                    <thead>
+                        <tr>
+                            <th>k</th>
+                            <th>P<sub>k</sub></th>
+                            <th>X</th>
+                            <th>Y</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h5>Puntos de la Elipse (Todos los Cuadrantes)</h5>
+                <table class="table table-bordered" id="allPointsTable">
+                    <thead>
+                        <tr>
+                            <th>X</th>
+                            <th>Y</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
 </body>
-</html>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmo DDA - Elipse Rellena</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <style>
+        canvas {
+            background-color: black;
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center mt-4">
+        <h1 class="mb-4">Algoritmo Elipse Rellena con Punto Medio</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="canvas" width="500" height="500"></canvas>
+            </div>
+            <div class="col-md-6">
+                <h4>Parámetros de la Elipse</h4>
+                <input type="number" id="centerX" placeholder="Centro X" class="form-control mb-2">
+                <input type="number" id="centerY" placeholder="Centro Y" class="form-control mb-2">
+                <input type="number" id="radioX" placeholder="Radio X" class="form-control mb-2">
+                <input type="number" id="radioY" placeholder="Radio Y" class="form-control mb-2">
+                <button class="btn btn-primary" id="drawEllipseButton">Dibujar Elipse</button>
+                <button class="btn btn-danger mt-2" id="erasebutton">Limpiar</button>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <h5>Región I</h5>
+                <table class="table table-bordered" id="region1_Table">
+                    <thead>
+                        <tr>
+                            <th>K</th>
+                            <th>Pk</th>
+                            <th>X</th>
+                            <th>Y</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <h5>Región II</h5>
+                <table class="table table-bordered" id="region2_Table">
+                    <thead>
+                        <tr>
+                            <th>K</th>
+                            <th>Pk</th>
+                            <th>X</th>
+                            <th>Y</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <h5>Todos los Puntos</h5>
+                <table class="table table-bordered" id="allPointsTable">
+                    <thead>
+                        <tr>
+                            <th>X</th>
+                            <th>Y</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Algoritmo de la elipse</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Dibujar Elipse</h1>
+    <form method="POST">
+        <label for="xc">Centro X:</label>
+        <input type="number" name="xc" id="centerX" required><br>
+        <label for="yc">Centro Y:</label>
+        <input type="number" name="yc" id="centerY" required><br>
+        <label for="rx">Radio X:</label>
+        <input type="number" name="rx" id="radioX" required><br>
+        <label for="ry">Radio Y:</label>
+        <input type="number" name="ry" id="radioY" required><br>
+        <button type="submit">Dibujar</button>
+    </form>
+
+    <canvas id="canvas" width="800" height="800" style="border:1px solid #ccc; margin-top: 20px;"></canvas>
+
+    <script>
+        $(document).ready(function () {
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            const width = canvas.width;
+            const height = canvas.height;
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            function drawGrid() {
+                ctx.strokeStyle = "#90ee90";
+                ctx.lineWidth = 0.7;
+                for (let i = 0; i < width; i += 20) {
+                    ctx.beginPath();
+                    ctx.moveTo(i, 0);
+                    ctx.lineTo(i, height);
+                    ctx.stroke();
+                }
+                for (let j = 0; j < height; j += 20) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, j);
+                    ctx.lineTo(width, j);
+                    ctx.stroke();
+                }
+            }
+
+            function drawAxisWithLabels() {
+                ctx.strokeStyle = "#0077cc";
+                ctx.lineWidth = 1.5;
+
+                // Ejes
+                ctx.beginPath();
+                ctx.moveTo(centerX, 0);
+                ctx.lineTo(centerX, height);
+                ctx.moveTo(0, centerY);
+                ctx.lineTo(width, centerY);
+                ctx.stroke();
+
+                // Etiquetas
+                ctx.fillStyle = "#333";
+                ctx.font = "11px Arial";
+
+                for (let x = -width / 2; x <= width / 2; x += 40) {
+                    if (x !== 0) {
+                        ctx.fillText(x, centerX + x + 2, centerY + 12);
+                    }
+                }
+
+                for (let y = -height / 2; y <= height / 2; y += 40) {
+                    if (y !== 0) {
+                        ctx.fillText(-y, centerX + 5, centerY + y + 5);
+                    }
+                }
+            }
+
+            function fillEllipse(xc, yc, rx, ry) {
+                ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
+                ctx.beginPath();
+                ctx.ellipse(xc, yc, rx, ry, 0, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            function drawPoints(points) {
+                ctx.fillStyle = "black";
+                for (let py in points) {
+                    points[py].forEach(px => {
+                        ctx.fillRect(centerX + px, centerY - py, 1, 1);
+                    });
+                }
+            }
+
+
+            function drawDDALine(x0, y0, x1, y1) {
+            let dx = x1 - x0;
+            let dy = y1 - y0;
+            const steps = Math.max(Math.abs(dx), Math.abs(dy));
+            const xInc = dx / steps;
+            const yInc = dy / steps;
+            let x = x0;
+            let y = y0;
+
+            ctx.fillStyle = "red";
+            for (let i = 0; i <= steps; i++) {
+                ctx.fillRect(Math.round(x), Math.round(y), 1, 1);
+                x += xInc;
+                y += yInc;
+            }
+        }
+
+            function initializeCanvas() {
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, width, height);
+                drawGrid();
+                drawAxisWithLabels();
+            }
+
+            initializeCanvas();
+
+            const puntos = {{ points|tojson }};
+            drawPoints(puntos);
+
+            // Dibujar elipse rellena si se proporcionaron valores
+            const rx = {{ rx }};
+            const ry = {{ ry }};
+            const xc = {{ xc }};
+            const yc = {{ yc }};
+            fillEllipse(centerX + xc, centerY - yc, rx, ry);
+        });
+    </script>
+
+    <h2>Región 1</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>k</th><th>pk</th><th>x</th><th>y</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in region1_table %}
+                <tr>
+                    <td>{{ row.k }}</td>
+                    <td>{{ row.pk }}</td>
+                    <td>{{ row.x }}</td>
+                    <td>{{ row.y }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Región 2</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>k</th><th>pk</th><th>x</th><th>y</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in region2_table %}
+                <tr>
+                    <td>{{ row.k }}</td>
+                    <td>{{ row.pk }}</td>
+                    <td>{{ row.x }}</td>
+                    <td>{{ row.y }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="container">
+        <div class="two-columns">
+            <!-- Columna 1 - Cuadrante 1 -->
+            <div class="column">
+                <h2>Cuadrante 1</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>x</th>
+                                <th>y</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in quad1_table %}
+                                <tr>
+                                    <td>{{ row.x }}</td>
+                                    <td>{{ row.y }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Columna 2 - Cuadrante 2 -->
+            <div class="column">
+                <h2>Cuadrante 2</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>-x</th>
+                                <th>y</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in quad2_table %}
+                                <tr>
+                                    <td>{{ row.x }}</td>
+                                    <td>{{ row.y }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="container">
+        <div class="two-columns">
+            <!-- Columna 1 - Cuadrante 3 -->
+            <div class="column">
+                <h2>Cuadrante 3</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>-x</th>
+                                <th>-y</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in quad3_table %}
+                                <tr>
+                                    <td>{{ row.x }}</td>
+                                    <td>{{ row.y }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Columna 2 - Cuadrante 4 -->
+            <div class="column">
+                <h2>Cuadrante 4</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>x</th>
+                                <th>-y</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in quad4_table %}
+                                <tr>
+                                    <td>{{ row.x }}</td>
+                                    <td>{{ row.y }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
